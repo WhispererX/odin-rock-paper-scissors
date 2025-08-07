@@ -9,17 +9,27 @@
 // return cpuChoice
 
 function getComputerChoice() {
-    let cpuChoice = "";
+    let cpuChoice = '';
 
-    let randomNumber = Math.random()
+    let randomNumber = Math.random();
 
     if (randomNumber < 0.3) {
-        cpuChoice = "rock";
+        cpuChoice = 'rock';
     } else if (randomNumber < 0.6) {
-        cpuChoice = "paper";
+        cpuChoice = 'paper';
     } else {
-        cpuChoice = "scissors";
+        cpuChoice = 'scissors';
     }
 
     return cpuChoice;
+}
+
+// create a new function named getHumanChoice
+// Write the code so that getHumanChoice will return one of the valid choices depending on what the user inputs.
+
+// prompt user to enter a choice
+// return their choice
+
+function getHumanChoice() {
+    return prompt('Choose rock, paper, or scissors');
 }
