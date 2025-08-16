@@ -10,20 +10,20 @@
 // return cpuChoice
 
 function getComputerChoice() {
-    let cpuChoice = '';
+  let cpuChoice = '';
 
-    let randomNumber = Math.random();
+  let randomNumber = Math.random();
 
-    if (randomNumber < 0.3) {
-        cpuChoice = 'rock';
-    } else if (randomNumber < 0.6) {
-        cpuChoice = 'paper';
-    } else {
-        cpuChoice = 'scissors';
-    }
+  if (randomNumber < 0.3) {
+    cpuChoice = 'rock';
+  } else if (randomNumber < 0.6) {
+    cpuChoice = 'paper';
+  } else {
+    cpuChoice = 'scissors';
+  }
 
-    console.log(`Computer chose ${cpuChoice}!`);
-    return cpuChoice;
+  console.log(`Computer chose ${cpuChoice}!`);
+  return cpuChoice;
 }
 
 // create a new function named getHumanChoice
@@ -33,9 +33,9 @@ function getComputerChoice() {
 // return their choice
 
 function getHumanChoice() {
-    const choice = prompt('Choose rock, paper, or scissors');
-    console.log(`You chose ${choice}!`);
-    return choice;
+  const choice = prompt('Choose rock, paper, or scissors');
+  console.log(`You chose ${choice}!`);
+  return choice;
 }
 
 // create a new function named playRound
@@ -54,77 +54,75 @@ function getHumanChoice() {
 // case scissorsrock: cpu wins, increment cpu score, log outcome
 // default: tie, log outcome
 
-function playGame() {
-    const rounds = 5;
+function playGame(rounds) {
+  // keep track of user score
+  let humanScore = 0;
+  let computerScore = 0;
 
-    // keep track of user score
-    let humanScore = 0;
-    let computerScore = 0;
+  function humanWins(humanChoice, cpuChoice) {
+    console.log(`You win! ${humanChoice} beats ${cpuChoice}.`);
+    humanScore++;
+  }
+  function cpuWins(humanChoice, cpuChoice) {
+    console.log(`You lose! ${cpuChoice} beats ${humanChoice}.`);
+    computerScore++;
+  }
 
-    function humanWins(humanChoice, cpuChoice) {
-        console.log(`You win! ${humanChoice} beats ${cpuChoice}.`);
-        humanScore++;
+  function tie() {
+    console.log('It was a tie!');
+  }
+
+  function playRound(humanChoice, cpuChoice) {
+    let humanResult = humanChoice.toLowerCase();
+    let cpuResult = cpuChoice.toLowerCase();
+
+    switch (humanResult + cpuResult) {
+      case 'rockpaper':
+        cpuWins(humanChoice, cpuChoice);
+        break;
+
+      case 'rockscissors':
+        humanWins(humanChoice, cpuChoice);
+        break;
+
+      case 'paperrock':
+        humanWins(humanChoice, cpuChoice);
+        break;
+
+      case 'paperscissors':
+        cpuWins(humanChoice, cpuChoice);
+        break;
+
+      case 'scissorspaper':
+        humanWins(humanChoice, cpuChoice);
+        break;
+
+      case 'scissorsrock':
+        cpuWins(humanChoice, cpuChoice);
+        break;
+
+      default:
+        tie();
+        break;
     }
-    function cpuWins(humanChoice, cpuChoice) {
-        console.log(`You lose! ${cpuChoice} beats ${humanChoice}.`);
-        computerScore++;
-    }
+  }
 
-    function tie() {
-        console.log('It was a tie!');
-    }
+  for (let round = 1; round < rounds; round++) {
+    const humanSelection = getHumanChoice();
+    const computerSelection = getComputerChoice();
+    playRound(humanSelection, computerSelection);
+  }
 
-    function playRound(humanChoice, cpuChoice) {
-        let humanResult = humanChoice.toLowerCase();
-        let cpuResult = cpuChoice.toLowerCase();
+  console.log(`You won ${humanScore} rounds out of 5`);
+  if (humanScore > computerScore) {
+    console.log('You won the game!');
+  } else {
+    console.log('You lost the game!');
+  }
 
-        switch (humanResult + cpuResult) {
-            case 'rockpaper':
-                cpuWins(humanChoice, cpuChoice);
-                break;
-
-            case 'rockscissors':
-                humanWins(humanChoice, cpuChoice);
-                break;
-
-            case 'paperrock':
-                humanWins(humanChoice, cpuChoice);
-                break;
-
-            case 'paperscissors':
-                cpuWins(humanChoice, cpuChoice);
-                break;
-
-            case 'scissorspaper':
-                humanWins(humanChoice, cpuChoice);
-                break;
-
-            case 'scissorsrock':
-                cpuWins(humanChoice, cpuChoice);
-                break;
-
-            default:
-                tie();
-                break;
-        }
-    }
-
-    for (let round = 1; round < rounds; round++) {
-        const humanSelection = getHumanChoice();
-        const computerSelection = getComputerChoice();
-        playRound(humanSelection, computerSelection);
-    }
-
-    console.log(`You won ${humanScore} rounds out of 5`);
-    if (humanScore > computerScore) {
-        console.log('You won the game!');
-    } else {
-        console.log('You lost the game!');
-    }
-
-    if (confirm('Play again?')) {
-        playGame();
-    }
+  if (confirm('Play again?')) {
+    playGame(rounds);
+  }
 }
 
-playGame();
+playGame(5);
