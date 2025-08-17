@@ -107,11 +107,11 @@ function playGame(rounds) {
     }
   }
 
-  for (let round = 1; round < rounds; round++) {
-    const humanSelection = getHumanChoice();
-    const computerSelection = getComputerChoice();
+//   for (let round = 1; round < rounds; round++) {
+//     const humanSelection = getHumanChoice();
+//     const computerSelection = getComputerChoice();
     playRound(humanSelection, computerSelection);
-  }
+//   }
 
   console.log(`You won ${humanScore} rounds out of 5`);
   if (humanScore > computerScore) {
