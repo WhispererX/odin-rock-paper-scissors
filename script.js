@@ -1,14 +1,40 @@
-// Create function named getComputerChoice
-// Write the code so that getComputerChoice will randomly return one of the following string values: “rock”, “paper” or “scissors”.
+// References
+const message = document.querySelector('#message');
 
-// create variable "cpuChoice"
-// Generate a random number between 0 and 1
-// If the number is below 0.3, set cpuChoice to "rock"
-// Else if it's below 0.6, set cpuChoice to "paper"
-// Else set cpuChoice to "scissors"
-// print outcome
-// return cpuChoice
+const roundElement = document.querySelector('#round');
 
+const playerScoreElement = document.querySelector('#player-score');
+const cpuScoreElement = document.querySelector('#cpu-score');
+
+const btnRock = document.querySelector('#rock');
+const btnPaper = document.querySelector('#paper');
+const btnScissors = document.querySelector('#scissors');
+
+const btnRetry = document.querySelector('#retry');
+
+const playerSelection = document.querySelector('#player-selection');
+const cpuSelection = document.querySelector('#cpu-selection');
+
+// Data
+const maxRounds = 5;
+let round = 1;
+let playerScore = 0;
+let cpuScore = 0;
+
+// Begin Game
+btnRock.addEventListener('click', (e) =>
+  playRound('rock', getComputerChoice())
+);
+btnPaper.addEventListener('click', (e) =>
+  playRound('paper', getComputerChoice())
+);
+btnScissors.addEventListener('click', (e) =>
+  playRound('scissors', getComputerChoice())
+);
+
+btnRetry.addEventListener('click', (e) => resetGame());
+
+// Utility functions
 function getComputerChoice() {
   let cpuChoice = '';
 
@@ -26,103 +52,144 @@ function getComputerChoice() {
   return cpuChoice;
 }
 
-// create a new function named getHumanChoice
-// Write the code so that getHumanChoice will return one of the valid choices depending on what the user inputs.
+function resetGame() {
+  playerScore = 0;
+  cpuScore = 0;
+  round = 0;
 
-// prompt user to enter a choice
-// return their choice
+  playerSelection.src = '';
+  cpuSelection.src = '';
 
-function getHumanChoice() {
-  const choice = prompt('Choose rock, paper, or scissors');
-  console.log(`You chose ${choice}!`);
-  return choice;
+  btnRetry.style.display = 'none';
+  btnRock.style.pointerEvents = 'all';
+  btnPaper.style.pointerEvents = 'all';
+  btnScissors.style.pointerEvents = 'all';
+
+  playerScoreElement.textContent = '0';
+  cpuScoreElement.textContent = '0';
+  message.textContent = 'Choose! Rock, Paper, Scissors?';
+
+  updateScore();
+  updateRounds();
 }
 
-// create a new function named playRound
-// Define two parameters for playRound: humanChoice and cpuChoice.
-// Make function’s humanChoice parameter case-insensitive
-
-// playRound
-// humanChoice.toLowerCase();
-// cpuChoice.toLowerCase();
-// switch humanChoice + cpuChoice
-// case rockpaper: cpu wins, increment cpu score, log outcome
-// case rockscissors: user wins, increment user score, log outcome
-// case paperrock: user wins, increment user score, log outcome
-// case paperscissors: cpu wins, increment cpu score, log outcome
-// case scissorspaper: user wins, increment user score, log outcome
-// case scissorsrock: cpu wins, increment cpu score, log outcome
-// default: tie, log outcome
-
-function playGame(rounds) {
-  // keep track of user score
-  let humanScore = 0;
-  let computerScore = 0;
-
-  function humanWins(humanChoice, cpuChoice) {
-    console.log(`You win! ${humanChoice} beats ${cpuChoice}.`);
-    humanScore++;
-  }
-  function cpuWins(humanChoice, cpuChoice) {
-    console.log(`You lose! ${cpuChoice} beats ${humanChoice}.`);
-    computerScore++;
-  }
-
-  function tie() {
-    console.log('It was a tie!');
-  }
-
-  function playRound(humanChoice, cpuChoice) {
-    let humanResult = humanChoice.toLowerCase();
-    let cpuResult = cpuChoice.toLowerCase();
-
-    switch (humanResult + cpuResult) {
-      case 'rockpaper':
-        cpuWins(humanChoice, cpuChoice);
-        break;
-
-      case 'rockscissors':
-        humanWins(humanChoice, cpuChoice);
-        break;
-
-      case 'paperrock':
-        humanWins(humanChoice, cpuChoice);
-        break;
-
-      case 'paperscissors':
-        cpuWins(humanChoice, cpuChoice);
-        break;
-
-      case 'scissorspaper':
-        humanWins(humanChoice, cpuChoice);
-        break;
-
-      case 'scissorsrock':
-        cpuWins(humanChoice, cpuChoice);
-        break;
-
-      default:
-        tie();
-        break;
-    }
-  }
-
-//   for (let round = 1; round < rounds; round++) {
-//     const humanSelection = getHumanChoice();
-//     const computerSelection = getComputerChoice();
-    playRound(humanSelection, computerSelection);
-//   }
-
-  console.log(`You won ${humanScore} rounds out of 5`);
-  if (humanScore > computerScore) {
-    console.log('You won the game!');
-  } else {
-    console.log('You lost the game!');
-  }
-
-  if (confirm('Play again?')) {
-    playGame(rounds);
-  }
+function updateScore() {
+  playerScoreElement.textContent = `${playerScore}`;
+  cpuScoreElement.textContent = `${cpuScore}`;
 }
 
-playGame(5);
+function updateRounds() {
+  roundElement.textContent = `${round}`;
+}
+
+// Wins
+function playerWins(playerChoice, cpuChoice) {
+  checkWinCondition();
+
+  playerScore++;
+  round++;
+
+  message.textContent = `You win! ${playerChoice} beats ${cpuChoice}!`;
+
+  updateScore();
+  updateRounds();
+}
+
+function cpuWins(playerChoice, cpuChoice) {
+  checkWinCondition();
+
+  cpuScore++;
+  round++;
+
+  message.textContent = `You lose! ${cpuChoice} beats ${playerChoice}!`;
+
+  updateScore();
+  updateRounds();
+}
+
+function tie(playerChoice, cpuChoice) {
+  checkWinCondition();
+
+  cpuScore++;
+  playerScore++;
+  round++;
+
+  message.textContent = `You tied! You both picked ${playerChoice}.`;
+
+  updateScore();
+  updateRounds();
+}
+
+function checkWinCondition() {
+  if (round >= maxRounds - 1) {
+    // Show retry button
+    btnRetry.style.display = 'block';
+
+    // Disable pointer events
+    btnRock.style.pointerEvents = 'none';
+    btnPaper.style.pointerEvents = 'none';
+    btnScissors.style.pointerEvents = 'none';
+
+    // Show retry message
+    message.textContent = 'Game Over!';
+
+    return true;
+  } else return false;
+}
+
+function playRound(playerChoice, cpuChoice) {
+  // Display selections
+  playerSelection.src = `./assets/${playerChoice}.png`;
+  cpuSelection.src = `./assets/${cpuChoice}.png`;
+
+  switch (`${playerChoice}-${cpuChoice}`) {
+    case 'rock-paper':
+      {
+        // Cpu wins
+        cpuWins(playerChoice, cpuChoice);
+      }
+      break;
+
+    case 'rock-scissors':
+      {
+        // Player wins
+        playerWins(playerChoice, cpuChoice);
+      }
+      break;
+
+    case 'paper-rock':
+      {
+        // Player wins
+        playerWins(playerChoice, cpuChoice);
+      }
+      break;
+
+    case 'paper-scissors':
+      {
+        // Cpu wins
+        cpuWins(playerChoice, cpuChoice);
+      }
+      break;
+
+    case 'scissors-rock':
+      {
+        // Cpu wins
+        cpuWins(playerChoice, cpuChoice);
+      }
+      break;
+
+    case 'scissors-paper':
+      {
+        // Player wins
+        playerWins(playerChoice, cpuChoice);
+      }
+      break;
+
+    default:
+      {
+        // Tie
+        tie(playerChoice, cpuChoice);
+      }
+      break;
+  }
+}

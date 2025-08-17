@@ -4,29 +4,45 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rock | Paper | Scissors</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="game-container">
-      <div class="player-container">
-        <div id="player-score">0</div>
-        <img src="" class="rps-icon" alt="" />
-        <div class="player-choices">
-          <button id="rock" class="rps-button">
-            <img src="" alt="rock" />
-          </button>
-          <button id="paper" class="rps-button">
-            <img src="" alt="paper" />
-          </button>
-          <button id="scissors" class="rps-button">
-            <img src="" alt="scissors" />
-          </button>
+      <h1 id="round">1</h1>
+      <div class="containers">
+        <div class="player-container">
+          <div id="player-score">0</div>
+          <img id="player-selection" src="" height="150" class="rps-icon" alt="" />
+          <div class="player-choices">
+            <button id="rock" class="rps-button">
+              <img src="./assets/rock.png" height="64" alt="rock" />
+            </button>
+            <button id="paper" class="rps-button">
+              <img src="./assets/paper.png" height="64" alt="paper" />
+            </button>
+            <button id="scissors" class="rps-button">
+              <img src="./assets/scissors.png" height="64" alt="scissors" />
+            </button>
+          </div>
+        </div>
+        <div class="cpu-container">
+          <div id="cpu-score">0</div>
+          <img id="cpu-selection" src="" height="150" class="rps-icon" alt="" />
+          <div class="cpu-choices">
+            <button class="rps-button">
+              <img src="./assets/rock.png" height="64" alt="rock" />
+            </button>
+            <button class="rps-button">
+              <img src="./assets/paper.png" height="64" alt="paper" />
+            </button>
+            <button class="rps-button">
+              <img src="./assets/scissors.png" height="64" alt="scissors" />
+            </button>
+          </div>
         </div>
       </div>
-      <div class="cpu-container">
-        <div id="cpu-score">0</div>
-        <img src="" class="rps-icon" alt="" />
-      </div>
+      <p id="message">Choose! Rock, Paper, Scissors?</p>
+      <button id="retry">Play Again?</button>
     </div>
 
     <script src="script.js"></script>
